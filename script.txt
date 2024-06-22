@@ -1,0 +1,28 @@
+local function activateESP()
+    -- Coloque o código do ESP aqui
+    -- Por exemplo:
+    print("ESP ativado!")
+end
+
+local function activateAutoKill()
+    -- Coloque o código do Auto Kill aqui
+    -- Por exemplo:
+    print("Auto Kill ativado!")
+end
+
+local gui = Instance.new("ScreenGui")
+gui.Parent = game.Players.LocalPlayer.PlayerGui
+
+local espButton = Instance.new("TextButton")
+espButton.Text = "Ativar ESP"
+espButton.Position = UDim2.new(0, 10, 0, 10)
+espButton.Size = UDim2.new(0, 100, 0, 30)
+espButton.Parent = gui
+espButton.MouseButton1Click:Connect(activateESP)
+
+local autoKillButton = Instance.new("TextButton")
+autoKillButton.Text = "Ativar Auto Kill"
+autoKillButton.Position = UDim2.new(0, 10, 0, 50)
+autoKillButton.Size = UDim2.new(0, 100, 0, 30)
+autoKillButton.Parent = gui
+autoKillButton.MouseButton1Click:Connect(activateAutoKill)
