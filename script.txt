@@ -1,28 +1,41 @@
-local function activateESP()
-    -- Coloque o código do ESP aqui
-    -- Por exemplo:
-    print("ESP ativado!")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local function CreateESP(player)
+    local Line = Instance.new("LineHandleAdornment")
+    Line.Parent = player.Character
+    Line.Adornee = player.Character:WaitForChild("HumanoidRootPart")
+    Line.Length = 5
+    Line.Thickness = 2
+    Line.Transparency = 0.5
+    Line.Color3 = Color3.new(1, 0, 0)
+
+    local function UpdateLine()
+        if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            Line.CFrame = CFrame.new(LocalPlayer.Character.HumanoidRootPart.Position, player.Character.HumanoidRootPart.Position)
+        else
+            Line:Destroy()
+        end
+    end
+
+    player.CharacterRemoving:Connect(function()
+        Line:Destroy()
+    end)
+
+    while player.Character do
+        UpdateLine()
+        wait(0.1)
+    end
 end
 
-local function activateAutoKill()
-    -- Coloque o código do Auto Kill aqui
-    -- Por exemplo:
-    print("Auto Kill ativado!")
+for _, player in pairs(Players:GetPlayers()) do
+    if player ~= LocalPlayer then
+        CreateESP(player)
+    end
 end
 
-local gui = Instance.new("ScreenGui")
-gui.Parent = game.Players.LocalPlayer.PlayerGui
-
-local espButton = Instance.new("TextButton")
-espButton.Text = "Ativar ESP"
-espButton.Position = UDim2.new(0, 10, 0, 10)
-espButton.Size = UDim2.new(0, 100, 0, 30)
-espButton.Parent = gui
-espButton.MouseButton1Click:Connect(activateESP)
-
-local autoKillButton = Instance.new("TextButton")
-autoKillButton.Text = "Ativar Auto Kill"
-autoKillButton.Position = UDim2.new(0, 10, 0, 50)
-autoKillButton.Size = UDim2.new(0, 100, 0, 30)
-autoKillButton.Parent = gui
-autoKillButton.MouseButton1Click:Connect(activateAutoKill)
+Players.PlayerAdded:Connect(function(player)
+    if player ~= LocalPlayer then
+        CreateESP(player)
+    end
+end)
